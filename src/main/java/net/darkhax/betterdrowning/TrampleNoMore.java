@@ -3,15 +3,13 @@ package net.darkhax.betterdrowning;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent.FarmlandTrampleEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,7 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod("tramplenomore")
 public class TrampleNoMore {
     
-    public static final Tag<Item> SOFT_BOOTS = new ItemTags.Wrapper(new ResourceLocation("tramplenomore", "soft_boots"));
+    public static final INamedTag<Item> SOFT_BOOTS = ItemTags.makeWrapperTag("tramplenomore:soft_boots");
     
     public TrampleNoMore() {
         

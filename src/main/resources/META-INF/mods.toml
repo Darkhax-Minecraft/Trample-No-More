@@ -1,9 +1,11 @@
 modLoader="javafml"
 loaderVersion="[31,)"
-issueTrackerURL="https://github.com/Darkhax-Minecraft/Better-Drowning/issues"
+issueTrackerURL="https://github.com/Darkhax-Minecraft/Trample-No-More/issues"
+license="LGPL v2.1"
 
 [[mods]]
 modId="tramplenomore"
+updateJSONURL="https://updates.blamejared.com/get?n=tramplenomore&gv=1.16.1"
 version="${version}"
 displayName="${mod_name}"
 displayURL="${mod_download}"
