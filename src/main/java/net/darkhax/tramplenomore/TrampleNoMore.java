@@ -1,4 +1,4 @@
-package net.darkhax.betterdrowning;
+package net.darkhax.tramplenomore;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
