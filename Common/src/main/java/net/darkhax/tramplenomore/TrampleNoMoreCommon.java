@@ -4,7 +4,7 @@ import com.google.common.collect.Iterables;
 import net.darkhax.bookshelf.api.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
@@ -72,7 +72,7 @@ public class TrampleNoMoreCommon {
 
     private static void onRecipesUpdate(RecipeManager manager) {
 
-        final Iterable<Holder<Item>> softBoots = Registry.ITEM.getTagOrEmpty(SOFT_BOOTS);
+        final Iterable<Holder<Item>> softBoots = BuiltInRegistries.ITEM.getTagOrEmpty(SOFT_BOOTS);
         Constants.LOG.debug("{} contains {} entries.", SOFT_BOOTS.location().toString(), Iterables.size(softBoots));
 
         softBoots.forEach(s -> {
@@ -83,7 +83,7 @@ public class TrampleNoMoreCommon {
             }
         });
 
-        final Iterable<Holder<EntityType<?>>> preventedMobs = Registry.ENTITY_TYPE.getTagOrEmpty(CANT_TRAMPLE);
+        final Iterable<Holder<EntityType<?>>> preventedMobs = BuiltInRegistries.ENTITY_TYPE.getTagOrEmpty(CANT_TRAMPLE);
         Constants.LOG.debug("{} contains {} entries.", CANT_TRAMPLE.location().toString(), Iterables.size(preventedMobs));
 
         preventedMobs.forEach(s -> {
