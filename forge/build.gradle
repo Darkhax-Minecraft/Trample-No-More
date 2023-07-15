@@ -1,27 +1,15 @@
-buildscript {
-    repositories {
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-    }
-}
-
 plugins {
-    id 'net.minecraftforge.gradle' version '5.1.+'
-    id 'net.darkhax.curseforgegradle' version '1.0.11'
-    id 'net.darkhax.tweedle' version '1.0.5'
+    id 'net.minecraftforge.gradle'
+    id 'net.darkhax.curseforgegradle'
+    id 'com.modrinth.minotaur'
+    id 'org.spongepowered.mixin'
 }
 
 apply from: '../gradle/patreon.gradle'
 
-archivesBaseName = "${mod_name}-Forge-${minecraft_version}"
-
-// Enable Mixins
-project.ext.mixin_enabled = project.file("src/main/resources/${mod_id}.forge.mixins.json").exists()
-project.ext.mixin_refmap = "${mod_id}.refmap.json"
-project.logger.lifecycle("Mixin ${project.ext.mixin_enabled ? 'enabled' : 'disabled'} for project ${project.name}.")
+base {
+    archivesName = "${mod_name}-Forge-${minecraft_version}"
+}
 
 minecraft {
 
@@ -33,21 +21,14 @@ minecraft {
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Client'
 
-            property 'forge.logging.console.level', 'debug'
-            property 'terminal.ansi', 'true'
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
             if (project.ext.mixin_enabled) {
-                arg "-mixin.config=${mod_id}.common.mixins.json"
-                arg "-mixin.config=${mod_id}.forge.mixins.json"
+                arg "-mixin.config=${mod_id}.mixins.json"
             }
 
             mods {
                 modClientRun {
                     source sourceSets.main
-                    source project(":Common").sourceSets.main
+                    source project(':common').sourceSets.main
                 }
             }
         }
@@ -56,21 +37,15 @@ minecraft {
             workingDirectory project.file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Server'
-            property 'forge.logging.console.level', 'debug'
-            property 'terminal.ansi', 'true'
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             if (project.ext.mixin_enabled) {
-                arg "-mixin.config=${mod_id}.common.mixins.json"
-                arg "-mixin.config=${mod_id}.forge.mixins.json"
+                arg "-mixin.config=${mod_id}.mixins.json"
             }
 
             mods {
                 modServerRun {
                     source sourceSets.main
-                    source project(":Common").sourceSets.main
+                    source project(':common').sourceSets.main
                 }
             }
         }
@@ -80,20 +55,26 @@ minecraft {
 dependencies {
 
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    compileOnly project(":Common")
-
     implementation fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${project.ext.minecraft_version}:${project.ext.bookshelf_version}")
-
+    compileOnly project(':common')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
-tasks.withType(JavaCompile) {
-    source(project(":Common").sourceSets.main.allSource)
+tasks.withType(JavaCompile).configureEach {
+    source(project(':common').sourceSets.main.allSource)
+}
+
+tasks.withType(Javadoc).configureEach {
+    source(project(':common').sourceSets.main.allJava)
+}
+
+tasks.named("sourcesJar", Jar) {
+    from(project(':common').sourceSets.main.allSource)
 }
 
 processResources {
 
-    from project(":Common").sourceSets.main.resources
+    from project(':common').sourceSets.main.resources
 
     def buildProps = project.properties.clone()
 
@@ -124,8 +105,7 @@ processResources {
     }
 
     if (project.ext.mixin_enabled) {
-
-        filesMatching('*.mixins.json') {
+        filesMatching(["${mod_id}.mixins.json".toString()]) {
 
             expand buildProps
         }
@@ -134,18 +114,27 @@ processResources {
 
 jar.finalizedBy('reobfJar')
 
+jar {
+
+    manifest {
+
+        def newProps = [:]
+
+        if (project.ext.mixin_enabled) {
+            newProps['MixinConfigs'] = "${mod_id}.mixins.json"
+        }
+
+        attributes(newProps)
+    }
+}
+
 // -- Mixin Support
 if (project.ext.mixin_enabled) {
-
-    apply plugin: 'org.spongepowered.mixin'
 
     mixin {
 
         // Tells the mixin plugin where to put the generated refmap file.
-        add sourceSets.main, project.ext.mixin_refmap
-
-        config "${mod_id}.common.mixins.json"
-        config "${mod_id}.forge.mixins.json"
+        add sourceSets.main, "${mod_id}.refmap.json"
     }
 }
 
@@ -156,20 +145,9 @@ project.publishing {
 
         mavenJava(MavenPublication) {
 
-            artifactId project.archivesBaseName
-
-            // Base mod archive.
-            artifact jar
-
-            // Adds the sources as an artifact.
-            artifact project.sourcesJar {
-                classifier 'sources'
-            }
-
-            // Adds the javadocs as an artifact.
-            artifact project.javadocJar {
-                classifier 'javadoc'
-            }
+            artifactId = base.archivesName.get()
+            from components.java
+            fg.component(it)
         }
     }
 
@@ -201,8 +179,10 @@ task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge)
     def mainFile = upload(curse_project, jar)
     mainFile.changelogType = 'markdown'
     mainFile.changelog = project.ext.mod_changelog
-    mainFile.addRequirement('bookshelf')
     mainFile.addJavaVersion('Java 17')
+    mainFile.addRequirement('bookshelf')
+    mainFile.releaseType = 'release'
+    mainFile.addGameVersion('Client', 'Server')
 
     // Append Patreon Supporters
     def patreonInfo = project.findProperty('patreon')
@@ -220,30 +200,52 @@ task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge)
     }
 }
 
+// Modrinth
+modrinth {
+
+    def patreonInfo = project.findProperty('patreon')
+    def changelogText = project.ext.mod_changelog
+
+    if (patreonInfo) {
+        changelogText += "\n\nThis project is made possible by [Patreon](${patreonInfo.campaignUrlTracked}) support from players like you. Thank you!\n\n${patreonInfo.pledgeLog}"
+    }
+
+    token.set(project.findProperty('modrinth_auth'))
+    projectId.set(modrinth_project)
+    changelog.set(changelogText)
+    versionName.set("${mod_name}-Forge-${minecraft_version}-$version")
+    versionType.set('release')
+    uploadFile.set(tasks.jar)
+
+    dependencies {
+        required.project('bookshelf-lib')
+    }
+}
+
 // Forge's Jar Signer
 def canSignJar = project.hasProperty('keyStore') && project.hasProperty('keyStorePass') && project.hasProperty('keyStoreKeyPass') && project.hasProperty('keyStoreAlias')
 
 task signJar(type: net.minecraftforge.gradle.common.tasks.SignJar, dependsOn: jar) {
-
+    
     onlyIf {
-
+    
         canSignJar
     }
-
+    
     if (canSignJar) {
-
+    
         keyStore = project.findProperty('keyStore')
         alias = project.findProperty('keyStoreAlias')
         storePass = project.findProperty('keyStorePass')
         keyPass = project.findProperty('keyStoreKeyPass')
         inputFile = jar.archivePath
         outputFile = jar.archivePath
-
+        
         build.dependsOn signJar
     }
-
+    
     else {
-
+    
         project.logger.warn('Jar signing is disabled for this build. One or more keyStore properties are not specified.')
     }
 }
