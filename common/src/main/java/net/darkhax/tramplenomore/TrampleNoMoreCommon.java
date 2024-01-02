@@ -5,6 +5,7 @@ import net.darkhax.bookshelf.api.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
@@ -23,8 +24,8 @@ import java.io.File;
 
 public class TrampleNoMoreCommon {
 
-    private static final TagKey<Item> SOFT_BOOTS = Services.TAGS.itemTag(new ResourceLocation(Constants.MOD_ID, "soft_boots"));
-    private static final TagKey<EntityType<?>> CANT_TRAMPLE = Services.TAGS.entityTag(new ResourceLocation(Constants.MOD_ID, "prevent_trampling"));
+    private static final TagKey<Item> SOFT_BOOTS = TagKey.create(Registries.ITEM, new ResourceLocation(Constants.MOD_ID, "soft_boots"));
+    private static final TagKey<EntityType<?>> CANT_TRAMPLE = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Constants.MOD_ID, "prevent_trampling"));
 
     private static final Config CONFIG = Config.load(new File(Services.PLATFORM.getConfigDirectory(), Constants.MOD_ID + ".json"));
 
