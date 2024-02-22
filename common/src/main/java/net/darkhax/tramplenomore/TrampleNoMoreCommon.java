@@ -56,6 +56,11 @@ public class TrampleNoMoreCommon {
                 }
             }
 
+            if (CONFIG.barefoot && footwear.isEmpty()) {
+
+                return true;
+            }
+
             if (CONFIG.creativeMode && living instanceof ServerPlayer serverPlayer && serverPlayer.isCreative()) {
 
                 return true;

@@ -24,6 +24,9 @@ public class Config {
     @Expose
     public boolean creativeMode = true;
 
+    @Expose
+    public boolean barefoot = false;
+
     public static Config load(File configFile) {
 
         Config config = new Config();
