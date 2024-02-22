@@ -51,6 +51,11 @@ public class TrampleNoMoreCommon {
                     return true;
                 }
 
+                if (CONFIG.barefoot && footwear.isEmpty()) {
+
+                    return true;
+                }
+
                 if (CONFIG.featherFalling && EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FALL_PROTECTION, footwear) > 0) {
 
                     return true;
