@@ -29,10 +29,8 @@ task postDiscord() {
             }
             webhook.sendMessage(message)
         }
-        catch (IOException e) {
+        catch (Exception e) {
             project.logger.error('Failed to push Discord webhook.')
-            project.logger.error(e.message)
-            throw e
         }
     }
 }
