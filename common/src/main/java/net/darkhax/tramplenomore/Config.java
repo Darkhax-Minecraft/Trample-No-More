@@ -27,6 +27,9 @@ public class Config {
     @Expose
     public boolean barefoot = false;
 
+    @Expose
+    public boolean villagers = true;
+
     public static Config load(File configFile) {
 
         Config config = new Config();

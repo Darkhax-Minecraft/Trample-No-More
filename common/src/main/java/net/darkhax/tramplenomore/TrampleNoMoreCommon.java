@@ -12,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -40,6 +41,10 @@ public class TrampleNoMoreCommon {
     private static boolean onTrampleFarmland(Entity trampler, BlockPos pos, BlockState state) {
 
         if (trampler instanceof LivingEntity living) {
+
+            if (CONFIG.villagers && trampler instanceof Villager) {
+                return true;
+            }
 
             final ItemStack footwear = living.getItemBySlot(EquipmentSlot.FEET);
 
