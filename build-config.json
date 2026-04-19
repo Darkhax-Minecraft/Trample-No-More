@@ -1,0 +1,58 @@
+{
+  "mod": {
+    "name": "TrampleNoMore",
+    "group": "net.darkhax.tramplenomore",
+    "authors": [
+      "Darkhax"
+    ],
+    "id": "tramplenomore",
+    "license": "LGPL 2.1",
+    "description": "Adds several ways to avoid trampling crops.",
+    "repo": "https://github.com/Darkhax-Minecraft/Trample-No-More",
+    "client": false
+  },
+  "curseforge": {
+    "slug": "trample-no-more",
+    "id": "377313"
+  },
+  "modrinth": {
+    "slug": "trample-no-more",
+    "id": "Bc9bwujS"
+  },
+  "dependencies": [
+    {
+      "name": "Bookshelf",
+      "type": "required",
+      "maven": {
+        "common": "net.darkhax.bookshelf:bookshelf-common-26.1.2:26.1.2.3",
+        "neoforge": "net.darkhax.bookshelf:bookshelf-neoforge-26.1.2:26.1.2.3",
+        "fabric": "net.darkhax.bookshelf:bookshelf-fabric-26.1.2:26.1.2.3"
+      },
+      "curseforge": {
+        "slug": "bookshelf",
+        "id": "228525"
+      },
+      "modrinth": {
+        "slug": "bookshelf-lib",
+        "id": "uy4Cnpcm"
+      }
+    },
+    {
+      "name": "Prickle",
+      "type": "required",
+      "maven": {
+        "common": "net.darkhax.pricklemc:prickle-common-26.1.2:26.1.2.1",
+        "neoforge": "net.darkhax.pricklemc:prickle-neoforge-26.1.2:26.1.2.1",
+        "fabric": "net.darkhax.pricklemc:prickle-fabric-26.1.2:26.1.2.1"
+      },
+      "curseforge": {
+        "slug": "prickle",
+        "id": "1023259"
+      },
+      "modrinth": {
+        "slug": "prickle",
+        "id": "aaRl8GiW"
+      }
+    }
+  ]
+}

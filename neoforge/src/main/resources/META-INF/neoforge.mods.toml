@@ -1,50 +1,36 @@
 modLoader = "javafml"
-loaderVersion = "${neoforge_loader_version_range}"
-license = "${mod_license}"
-issueTrackerURL="${mod_repo}/issues"
+license = "LGPL 2.1"
+issueTrackerURL = "https://github.com/Darkhax-Minecraft/Trample-No-More/issues"
 
 [[mods]]
-modId = "${mod_id}"
-version = "${version}"
-displayName = "${mod_name}"
-updateJSONURL = "https://updates.blamejared.com/get?n=${mod_id}&gv=${minecraft_version}&ml=${platform}"
-displayURL = "${curse_page}"
-logoFile="logo_${mod_id}.png"
+modId = "tramplenomore"
+version = "26.1.2.0"
+displayName = "TrampleNoMore"
+updateJSONURL = "https://updates.blamejared.com/get?n=tramplenomore&gv=26.1.2&ml=neoforge"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/trample-no-more"
+logoFile = "logo_tramplenomore.png"
 logoBlur = false
-credits = "This project is made possible with Patreon support from players like you. Thank you! ${patreon_pledges}"
-authors = "${mod_author}"
-description = "${mod_description}"
+credits = "This project is made possible with Patreon support from players like you. Thank you! lothrazar, techsquirrel, Keyana , Darkosto, Tobias Ward, noobanidus"
+authors = "Darkhax"
+description = "Adds several ways to avoid trampling crops."
 
 [[mixins]]
-config = "${mod_id}.mixins.json"
+config = "tramplenomore.common.mixins.json"
 
 [[mixins]]
-config = "${mod_id}.neoforge.mixins.json"
+config = "tramplenomore.neoforge.mixins.json"
 
-[[dependencies.${mod_id}]]
-modId = "neoforge"
-type = "required"
-versionRange = "[${neoforge_version},)"
-ordering = "NONE"
-side = "BOTH"
-
-[[dependencies.${mod_id}]]
+[[dependencies.tramplenomore]]
 modId = "minecraft"
 type = "required"
-versionRange = "${minecraft_version_range}"
+versionRange = "26.1"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${mod_id}]]
-modId = "bookshelf"
+[[dependencies.tramplenomore]]
+modId = "neoforge"
 type = "required"
-versionRange = "${bookshelf_version_range}"
+versionRange = "[26.1.0.1-beta,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${mod_id}]]
-modId = "prickle"
-type = "required"
-versionRange = "${prickle_version_range}"
-ordering = "NONE"
-side = "BOTH"
