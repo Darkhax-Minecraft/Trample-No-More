@@ -34,3 +34,17 @@ versionRange = "[26.1.0.1-beta,)"
 ordering = "NONE"
 side = "BOTH"
 
+[[dependencies.tramplenomore]]
+modId = "bookshelf"
+type = "required"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.tramplenomore]]
+modId = "prickle"
+type = "required"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"
+
