@@ -4,9 +4,9 @@ issueTrackerURL = "https://github.com/Darkhax-Minecraft/Trample-No-More/issues"
 
 [[mods]]
 modId = "tramplenomore"
-version = "26.1.2.0"
+version = "26.2.0.0"
 displayName = "TrampleNoMore"
-updateJSONURL = "https://updates.blamejared.com/get?n=tramplenomore&gv=26.1.2&ml=neoforge"
+updateJSONURL = "https://updates.blamejared.com/get?n=tramplenomore&gv=26.2&ml=neoforge"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/trample-no-more"
 logoFile = "logo_tramplenomore.png"
 logoBlur = false
@@ -23,14 +23,14 @@ config = "tramplenomore.neoforge.mixins.json"
 [[dependencies.tramplenomore]]
 modId = "minecraft"
 type = "required"
-versionRange = "26.1"
+versionRange = "26.2"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.tramplenomore]]
 modId = "neoforge"
 type = "required"
-versionRange = "[26.1.0.1-beta,)"
+versionRange = "[26.2.0.1-beta,)"
 ordering = "NONE"
 side = "BOTH"
 
